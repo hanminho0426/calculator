@@ -1,91 +1,100 @@
-let left = null, right= null, oper= null; res = false;
+// left= 왼쪽숫자 right=오른쪽숫자 oper=연산자 res=결과
+let left= null, right = null, oper = null; res= false, resValue = null;
 
-function save(){
-    const inp = document.getElementById("input");
+function save() {
+    const inp = document.getElementById("top-inp");
     let value = ""
 
     if(left === null)
-        return;
+      return;
     value += left + " "
     inp.value = value
 
     if(oper === null)
-        return;
+      return;
     value += oper + " "
     inp.value = value
 
     if(right === null)
-        return; 
+      return;
     value += right + " "
-    inp.value = value   
-
+    inp.value = value
+    
     if(res) {
-      switch(oper) {
-            case "+" :
+        switch(oper) {
+          case "+":
               resValue = parseInt(left) + parseInt(right)
-                break;
-            case "-" :
+              break;
+          case "-":
               resValue = parseInt(left) - parseInt(right)
-                break;
-            case "*" :
+              break;
+          case "*":
               resValue = parseInt(left) * parseInt(right)
-                break;
-            case "/" :
+              break;
+          case "/":
               resValue = parseInt(left) / parseInt(right)
-                break; 
-      }
-
-      value += "= " + resValue;
-      inp.value = value
+              break;     
+          
+        }
+    
+        value += "= " + resValue; 
+        inp.value = value  
     }
 }
 
 
 function inputNum(num) {
-    if(oper === null){
-        if(left === null) {
-           left = `${num}`
+    if(oper === null) {
+      if (left === null) {
+          left = `${num}`
       }
       else {
-        if(num === 0 && parseInt(left) === 0)
-          return;
-        left += `${num}`
+          if(num === 0 && parseInt(left) === 0)
+              return;
+          left += `${num}`
       }
     }
     else {
       if (right === null) {
-        right = `${num}`
+          right = `${num}`
       }
       else {
-        if(num === 0 && parseInt(right) === 0)
+          if(num === 0 && parseInt(right) === 0)
             return;
-        right += `${num}`
+          right += `${num}`
       }
     }
     save();
 }
 
 function inputOper(op) {
-  if (left === null && op === "-"){
-      left = "-"
-      save()
-      return;
-  }
-  if (left === "-" && op === "-"){
-      return; 
-  }
-  if (op === "-" && oper !== null && right === null){
-      right = "-"
-      save()
-      return  
-  }   
-  oper = op;
-  save()
+    if (left === null && op === "-"){
+        left = "-"
+        save()
+        return;
+    }
+    if(left === "-" && op === "-"){
+        return;
+    }  
+    if(op === "-" && oper !== null && right === null) {
+        right = "-"
+        save()
+        return;
+    }
+    oper = op;
+    save()
 }
 
 function inputEqu() {
-    if(res){
-
+  if(res) {
+      left = resValue
+      right = null
+      resValue = null
+      oper = null
+      res = false
+  }
+  else {
+    res = true
   }
   res = true
   save()
